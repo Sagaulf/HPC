@@ -1,0 +1,23 @@
+# Sample makefile
+# ('load studio' to use)
+# make -f Makefile.suncc
+# make clean -f Makefile.suncc
+
+TARGET	= libmatmult.so
+LIBSRCS	= main.c
+LIBOBJS	= main.o
+
+OPT	= -g 
+PIC	= -fPIC
+
+CC	= suncc
+CFLAGS= $(OPT) $(PIC) $(XOPTS) #-xlic_lib=sunperf
+
+SOFLAGS = -shared 
+XLIBS	= -xlic_lib=sunperf
+
+$(TARGET): $(LIBOBJS)
+	$(CC) -o $@ $(SOFLAGS) $(LIBOBJS) $(XLIBS)
+
+clean:
+	@/bin/rm -f core core.* $(LIBOBJS) 
