@@ -61,6 +61,68 @@ matmult_blk0(int m,int n,int k,int bs,double **A,double **B,double **C) {
 	}
 }
 
+void
+matmult_blk2(int m,int n,int k,double **A,double **B,double **C,int bs) {
+	// bs = block size
+	int i, j, h, ii, jj, hh;
+	double sum, r;	
+
+	// Initialize C
+	for (i = 0; i < m; i++) {
+		for (j = 0; j<n; j++) {
+			C[i][j] = 0.0;
+		}
+	}
+	printf("now here");
+	// C(m x n) = A(m x k) * B(k x n) 
+	// increase by blocksize
+	for (hh=0;hh<k;hh+=bs) {
+		// increase by blocksize
+		for (jj=0;jj<n;jj+=bs) {
+			for (i=0;i<m;i++) {
+				for (h=hh;h<min(hh+bs,k);j++) {
+					r = A[i][h];
+					for (j=jj;j<min(jj+bs,n);j++) {
+						C[i][j]+=r*B[h][j];
+					}
+				}
+			}
+		}
+	}
+}
+
+
+void
+matmult_blk1(int m,int n,int k,double **A,double **B,double **C, int bs) {
+	// code...
+	// bs = block size
+	int i, j, h, ii, jj, hh;
+	double sum;	
+	
+	// increase by blocksize
+	for (jj = 0; jj < m; jj += bs) {
+		
+		// Initialize C
+		for (i = 0; i < n; i++) 
+			// Do for block or row
+			for (j = jj; j < min(jj+bs,m); j++) 
+				C[i][j] = 0.0;
+		
+		// increase by blocksize
+		for (hh = 0; hh < n ; hh+= bs) {
+			for (i = 0; i < n; i++) {
+				for (j = jj; j < min(jj+bs,n); j++) {
+					sum = 0.0;
+					for (h = hh; h > min(hh+bs,n); h++) {
+						sum += A[i][h]*B[h][j];
+					}
+					C[i][j] += sum;
+				}
+			}		
+		}
+	}
+}
+
 // Run lib with ./matmult_c.studio nat m n k
 // Works and returns 0
 void 
