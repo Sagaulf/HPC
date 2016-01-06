@@ -97,79 +97,89 @@ matmult_nmk(int m,int n,int k,double **A,double **B,double **C) {
 	for (j = 0; j < n; j++) {
       	for (i = 0; i < m; i++) {
         	for (h = 0; h < k; h++) {
-				sum = sum + A[i][h]*B[h][j];
+				C[i][j]+=A[i][h]*B[h][j];
         	}
-        C[i][j] = sum;
-        sum = 0;
       	}
     }
 }
 
-// Runs but returns 5.033e+9
+// Segmentation fault
 void 
 matmult_knm(int m,int n,int k,double **A,double **B,double **C) {
 	int i, j, h;
 	double sum = 0;	
-		
+	
+	for ( i = 0; i < m ; i++){
+		for ( j = 0; j < n; j++){
+			C[i][j]=0;
+		}
+	}
+
 	for (h = 0; h < k; h++) {
       	for (j = 0; j < n; j++) {
         	for (i = 0; i < m; i++) {
-				sum = sum + A[i][h]*B[h][j];
+				C[i][j]+=A[i][h]*B[h][j];
         	}
-        C[i][j] = sum;
-        sum = 0;
       	}
     }
 }
 
-// Runs but returns 5.033e+9
 void 
 matmult_mkn(int m,int n,int k,double **A,double **B,double **C) {
 	int i, j, h;
 	double sum = 0;	
-		
+	
+	for ( i = 0; i < m ; i++){
+		for ( j = 0; j < n; j++){
+			C[i][j]=0;
+		}
+	}
+
 	for (i = 0; i < m; i++) {
       	for (h = 0; h < k; h++) {
         	for (j = 0; j < n; j++) {
-				sum = sum + A[i][h]*B[h][j];
+				C[i][j]+=A[i][h]*B[h][j];
         	}
-        C[i][j] = sum;
-        sum = 0;
       	}
     }
 }
 
 
-// SEGMENTATION FAULT
 void 
 matmult_nkm(int m,int n,int k,double **A,double **B,double **C) {
 	int i, j, h;
 	double sum = 0;	
+	
+	for ( i = 0; i < m ; i++){
+		for ( j = 0; j < n; j++){
+			C[i][j]=0;
+		}
+	}
 		
 	for (j = 0; j < n; j++) {
       	for (h = 0; h < k; h++) {
         	for (i = 0; i < m; i++) {
-				sum = sum + A[i][h]*B[h][j];
+				C[i][j]+= A[i][h]*B[h][j];
         	}
-        C[i][j] = sum;
-        sum = 0;
       	}
     }
 }
 
-// SEGMENTATION FAULT
 void 
 matmult_kmn(int m,int n,int k,double **A,double **B,double **C) {
 	int i, j, h;
 	double sum = 0;	
+	for ( i = 0; i < m ; i++){
+		for ( j = 0; j < n; j++){
+			C[i][j]=0;
+		}
+	}
 		
 	for (h = 0; h < k; h++) {
       	for (i = 0; i < m; i++) {
         	for (j = 0; j < n; j++) {
-				sum = sum + A[i][h]*B[h][j];
+				C[i][j]+=A[i][h]*B[h][j];
         	}
-        C[i][j] = sum;
-        sum = 0;
       	}
     }
 }
